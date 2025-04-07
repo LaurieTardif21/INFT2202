@@ -28,8 +28,9 @@ export default {
     static: {
       directory: path.join(__dirname, 'public'),
     },
+    historyApiFallback: true, // <-- ADD THIS LINE
     compress: true,
-    port: 9000,
+    port: 9001,
     open: true,
   },
   module: {
