@@ -2,7 +2,7 @@
  *  Since we are using the regular function keyword, 
  *   we can export our service instance up here.
  */
-export default new AnimalService({
+export default new ProductService({
     host: 'https://inft2202-server.onrender.com/',
     //host: 'http://localhost:3091',
     user: '0000'
@@ -11,7 +11,7 @@ export default new AnimalService({
 /*
  *  Constructor
  */
-function AnimalService({ host, user }) {
+function ProductService({ host, user }) {
     this.host = host;
     this.headers = new Headers({
         'Content-Type': 'application/json',
@@ -22,8 +22,8 @@ function AnimalService({ host, user }) {
 /*
  *
  */
-AnimalService.prototype.findAnimal = async function(name) {
-    const url = new URL(`/api/animals/${encodeURIComponent(name)}`, this.host);
+ProductService.prototype.findProduct = async function(name) {
+    const url = new URL(`/api/products/${encodeURIComponent(name)}`, this.host);
     const req = new Request(url, {
         headers: this.headers,
         method: 'GET',
@@ -38,10 +38,10 @@ AnimalService.prototype.findAnimal = async function(name) {
 /*
  *
  */
-AnimalService.prototype.getAnimalPage = async function({ page = 1, perPage = 8 }) 
+ProductService.prototype.getProductPage = async function({ page = 1, perPage = 8 }) 
 {
     const params = new URLSearchParams({ page, perPage });
-    const url = new URL(`/api/animals?${params.toString()}`, this.host);
+    const url = new URL(`/api/products?${params.toString()}`, this.host);
     const req = new Request(url, {
         headers: this.headers,
         method: 'GET',
@@ -57,13 +57,13 @@ AnimalService.prototype.getAnimalPage = async function({ page = 1, perPage = 8 }
 /*
  *
  */
-AnimalService.prototype.saveAnimal = async function(animals) 
+ProductService.prototype.saveProduct = async function(products) 
 {
-    const url = new URL(`/api/animals`, this.host);
+    const url = new URL(`/api/products`, this.host);
     const req = new Request(url, {
         headers: this.headers,
         method: 'POST',
-        body: JSON.stringify(animals)
+        body: JSON.stringify(products)
     });
     try {
         const res = await fetch(req);
@@ -76,13 +76,13 @@ AnimalService.prototype.saveAnimal = async function(animals)
 /*
  *
  */
-AnimalService.prototype.updateAnimal = async function(animal) 
+ProductService.prototype.updateProduct = async function(product) 
 {
-    const url = new URL(`/api/animals`, this.host);
+    const url = new URL(`/api/products`, this.host);
     const req = new Request(url, {
         headers: this.headers,
         method: 'PUT',
-        body: JSON.stringify(animal)
+        body: JSON.stringify(product)
     });
     try {
         const res = await fetch(req);
@@ -95,8 +95,8 @@ AnimalService.prototype.updateAnimal = async function(animal)
 /*
  *
  */
-AnimalService.prototype.deleteAnimal = async function(name) {
-    const url = new URL(`/api/animals/${name}`, this.host);
+ProductService.prototype.deleteProduct = async function(name) {
+    const url = new URL(`/api/products/${name}`, this.host);
     const req = new Request(url, {
         headers: this.headers,
         method: 'DELETE',

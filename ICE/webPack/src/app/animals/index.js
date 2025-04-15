@@ -1,34 +1,34 @@
-import animalService from "../animal.service.js";
+import productService from "../product.service.js";
 
-function animal(app) {
+function product(app) {
     const {name, listBuilder} = app;
     const container = document.createElement('div');
     container.classList.add('container');
     let h1 = document.createElement('h1');
-    h1.innerHTML = 'Add Animal';
+    h1.innerHTML = 'Add Product';
     container.append(h1);
     container.append(document.createElement('hr'));
 
     const form = document.createElement('form');
 
-    let animal = null;
+    let product = null;
     function createContent() {
         const mb2 = document.createElement('div');
         mb2.classList.add('mb-2');
-        //create animal form content
+        //create product form content
         const mb3Name = document.createElement('div');
         mb3Name.classList.add('mb-3');
         let editableInput = `<input type="text" class="form-control" id="name" name="name">`;
-        let readonlyInput = `<input type="text" class="form-control" id="name" name="name" value="${animal != null ? animal.name : ""}" readonly>`;
-        mb3Name.innerHTML = '<label for="name" class="form-label">Animal Name</label>' +
-            (animal != null ? readonlyInput : editableInput) +
+        let readonlyInput = `<input type="text" class="form-control" id="name" name="name" value="${product != null ? product.name : ""}" readonly>`;
+        mb3Name.innerHTML = '<label for="name" class="form-label">Product Name</label>' +
+            (product != null ? readonlyInput : editableInput) +
             '<p class="text-danger d-none"></p>';
         mb2.append(mb3Name);
 
         const mb3Breed = document.createElement('div');
         mb3Breed.classList.add('mb-3');
-        mb3Breed.innerHTML = '<label for="breed" class="form-label">Animal Breed</label>' +
-            `<input type="text" class="form-control" id="breed" name="breed" value="${animal != null ? animal.breed : ""}">` +
+        mb3Breed.innerHTML = '<label for="breed" class="form-label">Product Breed</label>' +
+            `<input type="text" class="form-control" id="breed" name="breed" value="${product != null ? product.breed : ""}">` +
             '<p class="text-danger d-none"></p>';
         mb2.append(mb3Breed);
 
@@ -48,14 +48,14 @@ function animal(app) {
 
         const mb3Sound = document.createElement('div');
         mb3Sound.classList.add('mb-3');
-        mb3Sound.innerHTML = '<label for="sound" class="form-label">Sound this animal makes</label>' +
+        mb3Sound.innerHTML = '<label for="sound" class="form-label">Sound this product makes</label>' +
             '<input type="text" class="form-control" id="sound" name="sound">' +
             '<p class="text-danger d-none"></p>';
         mb2.append(mb3Sound);
 
         const submitBtn = document.createElement('div');
         submitBtn.innerHTML = '<button type="submit" class="btn btn-primary">' +
-            'Save Animal <i class="fa-solid fa-check"></i>' +
+            'Save Product <i class="fa-solid fa-check"></i>' +
             '</button>';
         mb2.append(submitBtn);
         ///
@@ -72,7 +72,7 @@ function animal(app) {
 
         if (name == "") {
             eleNameError.classList.remove('d-none');
-            eleNameError.textContent = "You must name this animal!";
+            eleNameError.textContent = "You must name this product!";
             valid = false;
         } else {
             eleNameError.classList.add('d-none');
@@ -83,7 +83,7 @@ function animal(app) {
         const eleBreedError = form.breed.nextElementSibling
         if (breed == "") {
             eleBreedError.classList.remove('d-none');
-            eleBreedError.textContent = "What type of animal is this?";
+            eleBreedError.textContent = "What type of product is this?";
             valid = false;
         } else {
             eleBreedError.classList.add('d-none');
@@ -93,7 +93,7 @@ function animal(app) {
         const eleLegsError = form.legs.nextElementSibling
         if (legs == "") {
             eleLegsError.classList.remove('d-none');
-            eleLegsError.textContent = "How many legs does this animal have?";
+            eleLegsError.textContent = "How many legs does this product have?";
             valid = false;
         } else if (isNaN(legs)) {
             eleLegsError.classList.remove('d-none');
@@ -115,34 +115,34 @@ function animal(app) {
         // do stuff if the form is valid
         if (valid) {
             const formData = new FormData(form);
-            const animalObject = {};
+            const productObject = {};
             formData.forEach((value, key) => {
                 if (key === 'eyes' || key === 'legs') {
-                    animalObject[key] = Number(value);
+                    productObject[key] = Number(value);
                 }
                 else {
-                    animalObject[key] = value;
+                    productObject[key] = value;
                 }
             });
 
             const eleNameError = form.name.nextElementSibling
             if (action == "new") {
-                animalService.saveAnimal([animalObject])
+                productService.saveProduct([productObject])
                     .then(ret=>{
                         listBuilder(app);
                     })
                     .catch(err => {
                         eleNameError.classList.remove('d-none');
-                        eleNameError.textContent = "Err in adding an animal record!";
+                        eleNameError.textContent = "Err in adding an product record!";
                     });
             } else {
-                animalService.updateAnimal(animalObject)
+                productService.updateProduct(productObject)
                     .then(ret=>{
                         listBuilder(app);
                     })
                     .catch(err => {
                         eleNameError.classList.remove('d-none');
-                        eleNameError.textContent = "Err in updating animal record!";
+                        eleNameError.textContent = "Err in updating product record!";
                     });
             }
             eleNameError.classList.add('d-none');
@@ -161,13 +161,13 @@ function animal(app) {
         });
     }
     else {
-        h1.innerText = 'Update Animal';
-        animalService.findAnimal(name)
+        h1.innerText = 'Update Product';
+        productService.findProduct(name)
             .then(ret => {
                 if (ret.length == 0) {
                     throw 'No record';
                 }
-                animal = ret[0];
+                product = ret[0];
                 createContent();
                 form.addEventListener('submit', function (event) {
                     // prevent the default action from happening
@@ -182,4 +182,4 @@ function animal(app) {
     }
 }
 
-export default animal;
+export default product;

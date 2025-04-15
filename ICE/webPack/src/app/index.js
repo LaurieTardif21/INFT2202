@@ -1,14 +1,16 @@
 import listBuilder from "./animals/list.js";
-import animalBuilder from "./animals/index.js";
-import coverBuilder from "./views/cover.ejs"
+import productBuilder from "./animals/index.js";
+import coverBuilder from "./views/cover.ejs";
 import twitter from '../asset/twitter.svg';
+import contactBuilder from "./views/contact.ejs";
+import aboutBuilder from './views/about.ejs';
 
 function app(container) {
     const navItems = document.querySelectorAll('.nav-item a');
     var appObj = {
         recordPage: { page: 1, perPage: 10 },
         name: null,
-        animalBuilder: function (app) {
+        productBuilder: function (app) {
             navItems.forEach(item=>{
                 item.classList.remove('active');
                 item.removeAttribute('aria-current');
@@ -16,7 +18,7 @@ function app(container) {
             navItems[1].classList.add('active');
             navItems[1].setAttribute('aria-current','page');
             container.innerHTML = '';
-            container.append(animalBuilder(app).element);
+            container.append(productBuilder(app).element);
         },
         listBuilder: function (app) {
             app.name = null;
@@ -41,6 +43,26 @@ function app(container) {
                 './img/everything_is_object2.png',
                 './img/everything_is_object3.png'
             ]});
+        },
+        contactBuilder: function(app){
+            app.name = null;
+            navItems.forEach(item=>{
+                item.classList.remove('active');
+                item.removeAttribute('aria-current');
+            });
+            navItems[3].classList.add('active');
+            navItems[3].setAttribute('aria-current','page');            
+            container.innerHTML = contactBuilder();
+        },
+        aboutBuilder: function(app){
+            app.name = null;
+            navItems.forEach(item=>{
+                item.classList.remove('active');
+                item.removeAttribute('aria-current');
+            });
+            navItems[4].classList.add('active');
+            navItems[4].setAttribute('aria-current','page');            
+            container.innerHTML = aboutBuilder();
         }
     };
     const navigateTo = url => {
@@ -51,8 +73,10 @@ function app(container) {
         //these are front end rout, which should match your release server folder
         const routes = [
             { path: "/", view: () => appObj.coverBuilder(appObj) },
-            { path: "/animal", view: () => appObj.animalBuilder(appObj) },
-            { path: "/list", view: () => appObj.listBuilder(appObj) }
+            { path: "/animal", view: () => appObj.productBuilder(appObj) },
+            { path: "/list", view: () => appObj.listBuilder(appObj) },
+            { path: "/about", view: () => appObj.aboutBuilder(appObj) },
+            { path: "/contact", view: () => appObj.contactBuilder(appObj) }
         ];
 
         const potentialMatches = routes.map(route => {

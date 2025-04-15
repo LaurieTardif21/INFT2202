@@ -1,7 +1,7 @@
-import animalService from "../animal.service.js";
+import productService from "../product.service.js";
 
 function list(app) {
-    const {recordPage, animalBuilder} = app;
+    const {recordPage, productBuilder} = app;
     const container = document.createElement('div');
     container.classList.add('container');
     const divWaiting = document.createElement('div');
@@ -45,7 +45,7 @@ function list(app) {
         pagination.append(ul);
         return pagination;
     }
-    function drawAnimalTable(animals) {
+    function drawProductTable(products) {
         const eleTable = document.createElement('table');
         eleTable.classList.add('table', 'table-striped');
         // Create a <thead> element
@@ -59,14 +59,14 @@ function list(app) {
             th.textContent = headerText;
             row.appendChild(th);
         });
-        for (let animal of animals) {
+        for (let product of products) {
             const row = eleTable.insertRow();
-            // create some rows for each animal field    
-            row.insertCell().textContent = animal.name;
-            row.insertCell().textContent = animal.breed;
-            row.insertCell().textContent = animal.legs;
-            row.insertCell().textContent = animal.eyes;
-            row.insertCell().textContent = animal.sound;
+            // create some rows for each product field    
+            row.insertCell().textContent = product.name;
+            row.insertCell().textContent = product.breed;
+            row.insertCell().textContent = product.legs;
+            row.insertCell().textContent = product.eyes;
+            row.insertCell().textContent = product.sound;
             // create a cell to hold the buttons
             const eleBtnCell = row.insertCell();
             eleBtnCell.classList.add();
@@ -74,33 +74,33 @@ function list(app) {
             const eleBtnDelete = document.createElement('button');
             eleBtnDelete.classList.add('btn', 'btn-danger', 'mx-1');
             eleBtnDelete.innerHTML = `<i class="fa fa-trash"></i>`;
-            eleBtnDelete.addEventListener('click', onDeleteButtonClick(animal));
+            eleBtnDelete.addEventListener('click', onDeleteButtonClick(product));
             // add the delete button to the button cell
             eleBtnCell.append(eleBtnDelete);
             // create an edit button
             const eleBtnEdit = document.createElement('button');
             eleBtnEdit.classList.add('btn', 'btn-primary', 'mx-1');
             eleBtnEdit.innerHTML = `<i class="fa fa-user"></i>`;
-            eleBtnEdit.addEventListener('click', onEditButtonClick(animal));
+            eleBtnEdit.addEventListener('click', onEditButtonClick(product));
             // add the edit button to the button cell
             eleBtnCell.append(eleBtnEdit);
         }
         return eleTable;
     }
-    function onDeleteButtonClick(animal) {
+    function onDeleteButtonClick(product) {
         return event => {
-            animalService.deleteAnimal(animal.name).then(() => { window.location.reload(); });
+            productService.deleteProduct(product.name).then(() => { window.location.reload(); });
         }
     }
-    function onEditButtonClick(animal) {
+    function onEditButtonClick(product) {
         return event => {
-            app.name = animal.name;
-            animalBuilder(app);
+            app.name = product.name;
+            productBuilder(app);
         }
     }    
     function createContent(pageInfo) {
         divWaiting.classList.remove('d-none');
-        animalService.getAnimalPage(pageInfo)
+        productService.getProductPage(pageInfo)
             .then((ret) => {
                 container.textContent = '';
                 let { records, pagination } = ret;
@@ -108,11 +108,11 @@ function list(app) {
                 let header = document.createElement('div');
                 header.classList.add('d-flex', 'justify-content-between');
                 let h1 = document.createElement('h1');
-                h1.innerHTML = 'Animal List';
+                h1.innerHTML = 'Product List';
                 header.append(h1);
                 header.append(drawPagination(pagination));
                 container.append(header);
-                container.append(drawAnimalTable(records));
+                container.append(drawProductTable(records));
             })
             .catch(err => {
                 divWaiting.classList.add('d-none');
