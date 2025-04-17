@@ -53,7 +53,7 @@ function list(app) {
         // Create a row in the <thead>
         const row = thead.insertRow();
         // Create and append header cells
-        const headers = ['Name', 'Breed', 'Legs', 'Eyes', 'Sound'];
+        const headers = ['Name', 'Description', 'Stock', 'Price'];
         headers.forEach(headerText => {
             const th = document.createElement('th');
             th.textContent = headerText;
@@ -63,10 +63,9 @@ function list(app) {
             const row = eleTable.insertRow();
             // create some rows for each product field    
             row.insertCell().textContent = product.name;
-            row.insertCell().textContent = product.breed;
-            row.insertCell().textContent = product.legs;
-            row.insertCell().textContent = product.eyes;
-            row.insertCell().textContent = product.sound;
+            row.insertCell().textContent = product.description;
+            row.insertCell().textContent = product.stock;
+            row.insertCell().textContent = product.price;
             // create a cell to hold the buttons
             const eleBtnCell = row.insertCell();
             eleBtnCell.classList.add();
