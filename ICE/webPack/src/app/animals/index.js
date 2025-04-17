@@ -25,33 +25,26 @@ function product(app) {
             '<p class="text-danger d-none"></p>';
         mb2.append(mb3Name);
 
-        const mb3Breed = document.createElement('div');
-        mb3Breed.classList.add('mb-3');
-        mb3Breed.innerHTML = '<label for="breed" class="form-label">Product Breed</label>' +
-            `<input type="text" class="form-control" id="breed" name="breed" value="${product != null ? product.breed : ""}">` +
+        const mb3Description = document.createElement('div');
+        mb3Description.classList.add('mb-3');
+        mb3Description.innerHTML = '<label for="description" class="form-label">Product Description</label>' +
+            `<input type="text" class="form-control" id="description" name="description" value="${product != null ? product.description : ""}">` +
             '<p class="text-danger d-none"></p>';
-        mb2.append(mb3Breed);
+        mb2.append(mb3Description);
 
-        const mb3Leg = document.createElement('div');
-        mb3Leg.classList.add('mb-3');
-        mb3Leg.innerHTML = '<label for="legs" class="form-label">Number of Legs</label>' +
-            '<input type="text" class="form-control" id="legs" name="legs">' +
+        const mb3Stock = document.createElement('div');
+        mb3Stock.classList.add('mb-3');
+        mb3Stock.innerHTML = '<label for="stock" class="form-label">Number in Stock</label>' +
+            '<input type="text" class="form-control" id="stock" name="stock">' +
             '<p class="text-danger d-none"></p>';
-        mb2.append(mb3Leg);
+        mb2.append(mb3Stock);
 
-        const mb3Eye = document.createElement('div');
-        mb3Eye.classList.add('mb-3');
-        mb3Eye.innerHTML = '<label for="eyes" class="form-label">Number of Eyes</label>' +
-            '<input type="text" class="form-control" id="eyes" name="eyes">' +
+        const mb3Price = document.createElement('div');
+        mb3Price.classList.add('mb-3');
+        mb3Price.innerHTML = '<label for="price" class="form-label">Price</label>' +
+            '<input type="text" class="form-control" id="price" name="price">' +
             '<p class="text-danger d-none"></p>';
-        mb2.append(mb3Eye);
-
-        const mb3Sound = document.createElement('div');
-        mb3Sound.classList.add('mb-3');
-        mb3Sound.innerHTML = '<label for="sound" class="form-label">Sound this product makes</label>' +
-            '<input type="text" class="form-control" id="sound" name="sound">' +
-            '<p class="text-danger d-none"></p>';
-        mb2.append(mb3Sound);
+        mb2.append(mb3Price);
 
         const submitBtn = document.createElement('div');
         submitBtn.innerHTML = '<button type="submit" class="btn btn-primary">' +
@@ -79,32 +72,31 @@ function product(app) {
         }
 
         // test that breed is valid
-        const breed = form.breed.value;
-        const eleBreedError = form.breed.nextElementSibling
-        if (breed == "") {
-            eleBreedError.classList.remove('d-none');
-            eleBreedError.textContent = "What type of product is this?";
+        const description = form.description.value;
+        const eleDescriptionError = form.description.nextElementSibling
+        if (description == "") {
+            eleDescriptionError.classList.remove('d-none');
+            eleDescriptionError.textContent = "What type of product is this?";
             valid = false;
         } else {
-            eleBreedError.classList.add('d-none');
+            eleDescriptionError.classList.add('d-none');
         }
 
-        const legs = form.legs.value;
-        const eleLegsError = form.legs.nextElementSibling
-        if (legs == "") {
-            eleLegsError.classList.remove('d-none');
-            eleLegsError.textContent = "How many legs does this product have?";
+        const stock = form.stock.value;
+        const eleStockError = form.stock.nextElementSibling
+        if (stock == "") {
+            eleStockError.classList.remove('d-none');
+            eleStockError.textContent = "How many of this product have?";
             valid = false;
-        } else if (isNaN(legs)) {
-            eleLegsError.classList.remove('d-none');
-            eleLegsError.textContent = "This must be a number.";
+        } else if (isNaN(stock)) {
+            eleStockError.classList.remove('d-none');
+            eleStockError.textContent = "This must be a number.";
             valid = false;
         } else {
-            eleLegsError.classList.add('d-none');
+            eleStockError.classList.add('d-none');
         }
 
-        const eyes = form.eyes.value; // check that these are numbers
-        const sound = form.sound.value;
+        const price = form.price.value; // check that these are numbers
         // return if the form is valid or not
         return valid
     }
@@ -117,7 +109,7 @@ function product(app) {
             const formData = new FormData(form);
             const productObject = {};
             formData.forEach((value, key) => {
-                if (key === 'eyes' || key === 'legs') {
+                if (key === 'stock' || key === 'price') {
                     productObject[key] = Number(value);
                 }
                 else {
